@@ -1,0 +1,211 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      7069,        201]
+NotebookOptionsPosition[      6743,        186]
+NotebookOutlinePosition[      7089,        201]
+CellTagsIndexPosition[      7046,        198]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{"SetDirectory", "@", 
+  RowBox[{"NotebookDirectory", "[", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"valuesToExtract", "=", 
+   RowBox[{"{", 
+    RowBox[{"\"\<date\>\"", ",", "\"\<duration\>\"", ",", "\"\<number\>\""}], 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"processStr", "[", "str_", "]"}], ":=", 
+   RowBox[{"(", " ", 
+    RowBox[{"(*", " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"import", " ", "the", " ", "python", " ", "output"}], " ", 
+       "&"}], " ", "get", " ", "the", " ", "data"}], " ", "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"flat", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Last", "@", 
+         RowBox[{"StringSplit", "[", 
+          RowBox[{
+           RowBox[{"StringTrim", "[", 
+            RowBox[{"#", ",", "\"\<'\>\""}], "]"}], ",", "\"\<'\>\""}], 
+          "]"}]}], "&"}], "/@", 
+       RowBox[{"(", "\[IndentingNewLine]", 
+        RowBox[{"Flatten", "@", 
+         RowBox[{"(", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"StringSplit", "[", 
+             RowBox[{"#", ",", "\"\<:\>\""}], "]"}], "&"}], "/@", 
+           "\[IndentingNewLine]", 
+           RowBox[{"StringSplit", "[", 
+            RowBox[{
+             RowBox[{"StringTrim", "[", 
+              RowBox[{"str", ",", 
+               RowBox[{"\"\<{\>\"", "|", "\"\<}\>\""}]}], "]"}], ",", 
+             "\"\<,\>\""}], "]"}]}], "\[IndentingNewLine]", ")"}]}], 
+        "\[IndentingNewLine]", ")"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"ret", "=", 
+      RowBox[{"flat", "\[LeftDoubleBracket]", 
+       RowBox[{"1", "+", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Position", "[", 
+            RowBox[{"flat", ",", "#"}], "]"}], "&"}], "/@", 
+          "valuesToExtract"}], "]"}]}], "\[RightDoubleBracket]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"ret", "\[LeftDoubleBracket]", 
+       RowBox[{"1", ";;", "2"}], "\[RightDoubleBracket]"}], "=", 
+      RowBox[{"ToExpression", "@", 
+       RowBox[{"ret", "\[LeftDoubleBracket]", 
+        RowBox[{"1", ";;", "2"}], "\[RightDoubleBracket]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"ret", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+      "=", 
+      RowBox[{"DateList", "[", 
+       RowBox[{
+        RowBox[{"Round", "[", 
+         RowBox[{
+          RowBox[{
+          "ret", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "/", 
+          "1000"}], "]"}], "+", 
+        RowBox[{"AbsoluteTime", "[", 
+         RowBox[{"{", 
+          RowBox[{"1970", ",", "1", ",", "1", ",", "2", ",", "0", ",", "0"}], 
+          "}"}], "]"}]}], "]"}]}], ";", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "convert", " ", "unix", " ", "timestamp", " ", "to", " ", "date", " ", 
+       "list"}], " ", "*)"}], "\[IndentingNewLine]", "ret"}], 
+    "\[IndentingNewLine]", ")"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"data", "=", "\[IndentingNewLine]", 
+   RowBox[{"Union", "[", 
+    RowBox[{"Join", "@@", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"processStr", "[", "#", "]"}], "&"}], "/@", 
+          RowBox[{"StringSplit", "[", 
+           RowBox[{
+            RowBox[{"Import", "[", 
+             RowBox[{"#", ",", "\"\<String\>\""}], "]"}], ",", 
+            "\"\<\\n\>\""}], "]"}]}], ")"}], "&"}], "/@", 
+       RowBox[{"FileNames", "[", "\"\<*.txt\>\"", "]"}]}], ")"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"data", "//", "Shallow"}], "\[IndentingNewLine]", 
+ RowBox[{"data", "//", "Dimensions"}], "\[IndentingNewLine]", 
+ RowBox[{"Export", "[", 
+  RowBox[{"\"\<data.csv\>\"", ",", 
+   RowBox[{"data", "//", "Union"}]}], "]"}]}], "Input"],
+
+Cell[BoxData[
+ RowBox[{"uniqueMonths", "=", 
+  RowBox[{"Union", "[", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Flatten", "@", 
+      RowBox[{"{", 
+       RowBox[{"#", ",", "1"}], "}"}]}], "&"}], "/@", 
+    RowBox[{"data", "\[LeftDoubleBracket]", 
+     RowBox[{"All", ",", "1", ",", 
+      RowBox[{"1", ";;", "2"}]}], "\[RightDoubleBracket]"}]}], 
+   "]"}]}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"startDate", "=", "#"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"endDate", "=", 
+       RowBox[{"DatePlus", "[", 
+        RowBox[{"startDate", ",", "30"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"dataMonth", "=", 
+       RowBox[{"Select", "[", 
+        RowBox[{"data", ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"DateDifference", "[", 
+             RowBox[{"startDate", ",", 
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+             "]"}], ">", "0"}], " ", "&&", " ", 
+           RowBox[{
+            RowBox[{"DateDifference", "[", 
+             RowBox[{
+              RowBox[{
+              "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+              ",", "endDate"}], "]"}], ">", "0"}]}], "&"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"dataMonth", "//", "Shallow"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"contacts", "=", 
+       RowBox[{"Union", "@", 
+        RowBox[{"dataMonth", "\[LeftDoubleBracket]", 
+         RowBox[{"All", ",", 
+          RowBox[{"-", "1"}]}], "\[RightDoubleBracket]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Print", "[", 
+       RowBox[{"#", ",", 
+        RowBox[{
+         RowBox[{"Total", "@", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"#", "&"}], "/@", 
+            RowBox[{"dataMonth", "\[LeftDoubleBracket]", 
+             RowBox[{"All", ",", "2"}], "\[RightDoubleBracket]"}]}], ")"}]}], 
+         "/", "60."}]}], "]"}]}], "\[IndentingNewLine]", ")"}], "&"}], "/@", 
+   "uniqueMonths"}], ";"}]], "Input",
+ CellChangeTimes->{{3.5978971888145895`*^9, 3.5978971996652107`*^9}, 
+   3.597897320868143*^9, {3.597903706527382*^9, 3.5979037536380763`*^9}, 
+   3.59790393867566*^9, 3.5979039930427694`*^9}]
+},
+WindowSize->{707, 505},
+WindowMargins->{{Automatic, 168}, {57, Automatic}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (February 23, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 3867, 101, 452, "Input"],
+Cell[4427, 123, 366, 11, 31, "Input"],
+Cell[4796, 136, 1943, 48, 212, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
